@@ -10,13 +10,7 @@ namespace digioz.Calendar.Web.Controllers
     {
         public ActionResult Index(int? year, int? month)
         {
-            if (year != null && month != null)
-            {
-                ViewBag.Year = year;
-                ViewBag.Month = month;
-            }
-
-            return View();
+            return RedirectToAction("Index", "Calendar");
         }
     }
 }
