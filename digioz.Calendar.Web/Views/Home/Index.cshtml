@@ -1,0 +1,102 @@
+﻿
+@{
+    ViewBag.Title = "Calendar";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            
+            @{
+                int currentMonth = DateTime.Now.Month;
+                int currentDay = DateTime.Now.Day;
+                int currentYear = DateTime.Now.Year;
+
+                if (ViewBag.Year != null && ViewBag.Month != null)
+                {
+                    currentMonth = ViewBag.Month;
+                    currentYear = ViewBag.Year;
+                    currentDay = 1;
+                }
+
+                DateTime selectedDate = new DateTime(currentYear, currentMonth, currentDay);
+                int numberOfDaysInCurrentMonth = System.DateTime.DaysInMonth(currentYear, currentMonth);
+                string currentMonthString = selectedDate.ToString("MMMM");
+
+                <h1>Calendar @currentMonthString @currentYear</h1>
+
+                <center>
+                    <table>
+                        <tr>
+                            <td>
+                                <div class="btn-sm btn-primary">
+                                    @Html.ActionLink("<<", "Index", new { year = currentYear, month = currentMonth - 1 }, new { @style = "color:#ffffff;font-weight:bold;" })
+                                </div>
+                            </td>
+                            <td>
+                                <div class="btn-sm btn-primary">
+                                    @Html.ActionLink(">>", "Index", new { year = currentYear, month = currentMonth + 1 }, new { @style = "color:#ffffff;font-weight:bold;" })
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </center>
+
+                <br />
+
+                <table class="table-bordered" style="width:100%; border-color:#000000; border:1px;">
+                    <tr>
+                        <th style="background-color:#B1BFD3; text-align:center;">Sunday</th>
+                        <th style="background-color:#B1BFD3; text-align:center;">Monday</th>
+                        <th style="background-color:#B1BFD3; text-align:center;">Tuesday</th>
+                        <th style="background-color:#B1BFD3; text-align:center;">Wednesday</th>
+                        <th style="background-color:#B1BFD3; text-align:center;">Thursday</th>
+                        <th style="background-color:#B1BFD3; text-align:center;">Friday</th>
+                        <th style="background-color:#B1BFD3; text-align:center;">Saturday</th>
+                    </tr>
+                    @for (int i = 1; i<= numberOfDaysInCurrentMonth; i++)
+                    {
+                        // find out what day of the week
+                        string dayOfTheWeek = (new DateTime(currentYear, currentMonth, i)).ToString("ddd");
+                    int dayOfTheWeekValue = (int)(new DateTime(currentYear, currentMonth, i)).DayOfWeek;
+
+                        if (dayOfTheWeek != "Sun" && i == 1)
+                        {
+                            @:<tr>
+                            // Output empty cells if beginning of the  
+                            // month falls on a day other then Sunday
+                            for (int j = 1; j <= dayOfTheWeekValue; j++)
+                            {
+                                @:<td>&nbsp;</td>
+                            }
+                        }
+
+                        if (dayOfTheWeek == "Sun")
+                        {
+                            @:<tr>
+                        }
+
+                        <td style="background-color:#E9F0F9;padding:10px;min-height:100px;min-width:100px;vertical-align:top;"><span style="font-size:x-small"><b>@i</b><br /></span></td>
+
+                        if (dayOfTheWeek == "Sat" && i == numberOfDaysInCurrentMonth)
+                        {
+                            @:</tr>
+                        }
+
+                        if (i == numberOfDaysInCurrentMonth)
+                        {
+                            // Output empty cells if the end of the
+                            // month falls on a day other then Saturday
+                            for (int k = dayOfTheWeekValue; k < 6; k++)
+                            {
+                                @:<td>&nbsp;</td>
+                            }
+                            @:</tr>
+                        }
+                    }
+                </table>
+            }
+
+        </div>
+    </div>
+</div>
