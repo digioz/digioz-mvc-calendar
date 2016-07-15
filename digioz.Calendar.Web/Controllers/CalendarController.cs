@@ -13,6 +13,18 @@ namespace digioz.Calendar.Web.Controllers
         {
             if (year != null && month != null)
             {
+                if (month == 13)
+                {
+                    month = 1;
+                    year++;
+                }
+
+                if (month == 0)
+                {
+                    month = 12;
+                    year--;
+                }
+
                 ViewBag.Year = year;
                 ViewBag.Month = month;
             }
